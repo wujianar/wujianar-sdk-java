@@ -8,7 +8,7 @@ public class ImageList {
     private int size;
     private int count;
     private int totalPage;
-    private ImageDetail[] items;
+    private ImageListItem[] items;
 
     public ImageList() {
     }
@@ -45,11 +45,11 @@ public class ImageList {
         this.totalPage = totalPage;
     }
 
-    public ImageDetail[] getItems() {
+    public ImageListItem[] getItems() {
         return items;
     }
 
-    public void setItems(ImageDetail[] items) {
+    public void setItems(ImageListItem[] items) {
         this.items = items;
     }
 }

@@ -1,5 +1,7 @@
 package com.wujianar.helper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
 import java.io.File;
@@ -21,7 +23,6 @@ public class HttpHelper {
     private Map<String, String> parameters;
     private Map<String, String> headers = new HashMap<>();
     private String bodyStr;
-    private byte[] body;
     private String filename;
 
     public HttpHelper(String method, String url) {
@@ -34,14 +35,17 @@ public class HttpHelper {
         return this;
     }
 
-
     public HttpHelper setBodyStr(String str) {
         this.bodyStr = str;
         return this;
     }
 
-    public HttpHelper setBody(byte[] buffer) {
-        this.body = buffer;
+    public HttpHelper setBody(Object obj) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            this.bodyStr = objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+        }
         return this;
     }
 
@@ -69,10 +73,6 @@ public class HttpHelper {
             RequestBody b = RequestBody.create(new File(this.filename), MediaType.parse("application/octet-stream"));
             builder.addFormDataPart("file", this.filename, b);
             return builder.build();
-        }
-
-        if (this.body != null) {
-            return RequestBody.create(body, MediaType.parse("application/octet-stream"));
         }
 
         FormBody.Builder builder = new FormBody.Builder();

@@ -74,25 +74,6 @@ public class ImageManager extends Base {
     }
 
     /**
-     * 使用上传文件的方式创建识别资源
-     *
-     * @param name     名称
-     * @param brief    说明
-     * @param filename 本地文件路径
-     * @throws IOException
-     * @return　ResultDetail
-     */
-    public ResultDetail createByFile(String name, String brief, String filename) throws IOException {
-        Map<String, String> map = new HashMap<>();
-        map.put("name", name);
-        map.put("brief", brief);
-
-        String url = String.format("%s/images", this.getEndpointUrl());
-        byte[] data = new HttpHelper(HttpHelper.POST, url).setHeader(this.getHeader()).setParameter(map).setFile(filename).call();
-        return this.toResult(data, ResultDetail.class);
-    }
-
-    /**
      * 使用图片的base64数据创建识别资源
      *
      * @param name  名称
@@ -113,18 +94,6 @@ public class ImageManager extends Base {
     }
 
     /**
-     * 更新名称
-     *
-     * @param uuid uuid
-     * @param name 名称
-     * @return
-     * @throws IOException
-     */
-    public ResultNormal updateName(String uuid, String name) throws IOException {
-        return this.update(uuid, "name", name);
-    }
-
-    /**
      * 更新状态
      *
      * @param uuid   uuid
@@ -133,53 +102,44 @@ public class ImageManager extends Base {
      * @throws IOException
      */
     public ResultNormal updateStatus(String uuid, int status) throws IOException {
-        return this.update(uuid, "status", String.valueOf(status));
+        return this.update(uuid, "status", status);
     }
 
-    /**
-     * 更新说明
-     *
-     * @param uuid  uuid
-     * @param brief 说明
-     * @return ResultNormal
-     * @throws IOException
-     */
-    public ResultNormal updateBrief(String uuid, String brief) throws IOException {
-        return this.update(uuid, "brief", brief);
+    public ResultNormal update(String uuid, String name, String brief, int status) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("brief", brief);
+        map.put("status", status);
+
+        String url = String.format("%s/images/%s", this.getEndpointUrl(), uuid);
+        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
+        return this.toResult(data, ResultNormal.class);
+    }
+
+    private ResultNormal update(String uuid, String key, Object value) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", key);
+        map.put("value", value);
+
+        String url = String.format("%s/images/%s/%s", this.getEndpointUrl(), uuid, key);
+        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
+        return this.toResult(data, ResultNormal.class);
     }
 
     /**
      * 更新识别图 (base64数据方式)
      *
      * @param uuid  uuid
-     * @param image 图片的base64数据
+     * @param image 图片base64数据
      * @return ResultNormal
      * @throws IOException
      */
     public ResultNormal updateImageByBase64(String uuid, String image) throws IOException {
-        return this.update(uuid, "image", image);
-    }
-
-    private ResultNormal update(String uuid, String key, String value) throws IOException {
         Map<String, String> map = new HashMap<>();
-        map.put("value", value);
+        map.put("image", image);
 
-        String url = String.format("%s/images/%s/%s", this.getEndpointUrl(), uuid, key);
-        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setParameter(map).call();
-        return this.toResult(data, ResultNormal.class);
-    }
-
-    /**
-     * 更新识别图 (文件上传方式)
-     *
-     * @param uuid     uuid
-     * @param filename 本地图片路径
-     * @return ResultNormal
-     * @throws IOException
-     */
-    public ResultNormal updateImageByFile(String uuid, String filename) throws IOException {
         String url = String.format("%s/images/%s/image", this.getEndpointUrl(), uuid);
-        byte[] data = new HttpHelper(HttpHelper.POST, url).setHeader(this.getHeader()).setFile(filename).call();
+        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
         return this.toResult(data, ResultNormal.class);
     }
 

@@ -59,19 +59,4 @@ public class ImageSearcher extends Base {
                 .call();
         return this.toResult(data, ResultSearch.class);
     }
-
-    /**
-     * 使用文件的字节数组搜索
-     *
-     * @param buffer 字节数组
-     * @return ResultDetail
-     * @throws IOException
-     */
-    public ResultSearch searchByByte(byte[] buffer) throws IOException {
-        byte[] data = new HttpHelper(HttpHelper.POST, this.getSearcherUrl())
-                .setHeader(this.getHeader())
-                .setBody(buffer)
-                .call();
-        return this.toResult(data, ResultSearch.class);
-    }
 }
