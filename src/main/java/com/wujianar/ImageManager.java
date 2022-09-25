@@ -89,56 +89,40 @@ public class ImageManager extends Base {
         map.put("image", image);
 
         String url = String.format("%s/images", this.getEndpointUrl());
-        byte[] data = new HttpHelper(HttpHelper.POST, url).setHeader(this.getHeader()).setParameter(map).call();
+        byte[] data = new HttpHelper(HttpHelper.POST, url).setHeader(this.getHeader()).setBody(map).call();
         return this.toResult(data, ResultDetail.class);
     }
 
     /**
      * 更新状态
      *
-     * @param uuid   uuid
+     * @param uuids  uuid 数组
      * @param status 状态: 1启用; 2禁用
      * @return
      * @throws IOException
      */
-    public ResultNormal updateStatus(String uuid, int status) throws IOException {
-        return this.update(uuid, "status", status);
+    public ResultNormal updateStatus(String[] uuids, int status) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        map.put("uuid", uuids);
+
+        String url = String.format("%s/images/0/status", this.getEndpointUrl());
+        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
+        return this.toResult(data, ResultNormal.class);
     }
 
     public ResultNormal update(String uuid, String name, String brief, int status) throws IOException {
+        return this.update(uuid, name, brief, status, "");
+    }
+
+    public ResultNormal update(String uuid, String name, String brief, int status, String image) throws IOException {
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
         map.put("brief", brief);
         map.put("status", status);
-
-        String url = String.format("%s/images/%s", this.getEndpointUrl(), uuid);
-        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
-        return this.toResult(data, ResultNormal.class);
-    }
-
-    private ResultNormal update(String uuid, String key, Object value) throws IOException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("key", key);
-        map.put("value", value);
-
-        String url = String.format("%s/images/%s/%s", this.getEndpointUrl(), uuid, key);
-        byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
-        return this.toResult(data, ResultNormal.class);
-    }
-
-    /**
-     * 更新识别图 (base64数据方式)
-     *
-     * @param uuid  uuid
-     * @param image 图片base64数据
-     * @return ResultNormal
-     * @throws IOException
-     */
-    public ResultNormal updateImageByBase64(String uuid, String image) throws IOException {
-        Map<String, String> map = new HashMap<>();
         map.put("image", image);
 
-        String url = String.format("%s/images/%s/image", this.getEndpointUrl(), uuid);
+        String url = String.format("%s/images/%s", this.getEndpointUrl(), uuid);
         byte[] data = new HttpHelper(HttpHelper.PUT, url).setHeader(this.getHeader()).setBody(map).call();
         return this.toResult(data, ResultNormal.class);
     }
@@ -150,9 +134,12 @@ public class ImageManager extends Base {
      * @return ResultNormal
      * @throws IOException
      */
-    public ResultNormal delete(String uuid) throws IOException {
-        String url = String.format("%s/images/%s", this.getEndpointUrl(), uuid);
-        byte[] data = new HttpHelper(HttpHelper.DELETE, url).setHeader(this.getHeader()).call();
+    public ResultNormal delete(String[] uuids) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uuid", uuids);
+
+        String url = String.format("%s/images/0/delete", this.getEndpointUrl());
+        byte[] data = new HttpHelper(HttpHelper.POST, url).setHeader(this.getHeader()).setBody(map).call();
         return this.toResult(data, ResultNormal.class);
     }
 }

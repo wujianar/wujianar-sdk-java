@@ -12,40 +12,43 @@ import java.util.Base64;
 
 public class Application {
     public static void main(String[] args) throws IOException {
-//        testSearch();
-        testManager();
+        testSearch();
+        // testManager();
     }
 
     public static void testManager() throws IOException {
-        String accessKey = "8b89187720054aca9aa69509b33eef8e";
-        String accessSecret = "1Dl0csbOy8FsvtoJlYmTmJzfkFYZWgrS6nOLpxqzDx6E1rgZ8T5I3w0xGlCuSyQh";
-        String endpointUrl = "https://iss-cn1.wujianar.com";
+        String accessKey = "3d9d6......a3c6b50c88fd4b";
+        String accessSecret = "2efDxOywyN......oZnjcG8Um8NDcmoycKw9TvhGLFEr";
+        String endpointUrl = "https://iss-cn2.wujianar.com";
 
         ImageManager manager = new ImageManager(accessKey, accessSecret, endpointUrl);
-//        ResultList list = manager.getList();
-//        ResultList list = manager.getList(1, 2, "");
-//        ResultDetail detail = manager.getDetail("e582d10c1b634139bbf91539317055af");
-//        ResultDetail detail = manager.createByBase64("A", "{}", getImage());
-//        ResultNormal normal = manager.update("7afaef8e1ab748d5af53bfb174133e30", "AAAAAAA", "{age:10}", 2);
-//        ResultNormal normal = manager.updateStatus("7afaef8e1ab748d5af53bfb174133e30", 1);
-        ResultNormal normal = manager.updateImageByBase64("7afaef8e1ab748d5af53bfb174133e30", getImage());
-//        ResultNormal normal = manager.delete("7afaef8e1ab748d5af53bfb174133e30");
+        // ResultList list = manager.getList();
+        // ResultList list = manager.getList(1, 2, "");
+        // ResultDetail detail = manager.getDetail("e39a781343e54b34a5685bd5528e1eb8");
+        // ResultDetail detail = manager.createByBase64("name", "{}", getImage());
+        // ResultNormal normal = manager.updateStatus(new String[]{"7fa9d2c43c76423c8be9b86999795a18"}, 2);
+        // ResultNormal normal = manager.update("7fa9d2c43c76423c8be9b86999795a18", "AAAAAAA", "{age:11}", 1);
+        // ResultNormal normal = manager.update("7fa9d2c43c76423c8be9b86999795a18", "AAAAAAA", "{age:11}", 1, getImage());
+        ResultNormal normal = manager.delete(new String[]{"7fa9d2c43c76423c8be9b86999795a18"});
 
-        System.out.println(normal);
+        // System.out.println(normal);
+        System.out.println("done");
     }
 
     public static void testSearch() throws IOException {
-        String accessKey = "657473afdc204512825fa93edbc56a66";
-        String accessSecret = "LXMrTYo8DCX7IZcyK29kcJzZruxR4ueUzRfyJkQhsZu2KhY1HiUllQpiFLs0ryjN";
-        String endpointUrl = "https://iss-cn1.wujianar.com";
+        String accessKey = "887f1......948a792533d5fef646d";
+        String accessSecret = "6eFRLOy......H1JJoNfTKCCml4yW3rRDuN4JeQS5kzK";
+        String endpointUrl = "https://iss-cn2.wujianar.com";
 
         ImageSearcher searcher = new ImageSearcher(accessKey, accessSecret, endpointUrl);
-//        ResultSearch rs = searcher.searchByBase64(getImage());
-        ResultSearch rs = searcher.searchByFile("/home/jerry/Pictures/aaaaaaaaaaa.jpg");
+        // ResultSearch rs = searcher.searchByBase64(getImage());
+        ResultSearch rs = searcher.searchByFile("/home/wujianar/Pictures/1.jpg");
 
-        if (rs.getCode() == 0) {
-            System.out.println(rs.getResult().getUuid());
+        // 搜索到到目标
+        if (rs.getCode() == 200) {
+            System.out.println(rs.getData().getUuid());
         } else {
+            // 未搜索到目标
             System.out.println(rs.getCode() + ":" + rs.getMessage());
         }
     }
@@ -53,7 +56,7 @@ public class Application {
     public static String getImage() {
         String image = "";
         try {
-            byte[] bytes = Files.readAllBytes(Paths.get("/home/jerry/Pictures/10.jpg"));
+            byte[] bytes = Files.readAllBytes(Paths.get("/home/wujianar/Pictures/1.jpg"));
             image = Base64.getEncoder().encodeToString(bytes);
         } catch (Exception e) {
             System.out.println(e.getMessage());

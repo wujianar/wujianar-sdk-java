@@ -57,10 +57,9 @@ public class Base {
     protected Map<String, String> getHeader() {
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", this.getToken());
-        map.put("user-agent", "WuJianAR-Java-V1.0");
+        map.put("user-agent", "WuJianAR-Java-V2.0");
         return map;
     }
-
 
     public <T> T toResult(byte[] data, Class<T> target) throws IOException {
         return objectMapper.readValue(data, target);

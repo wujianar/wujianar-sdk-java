@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultDetail {
     private int code;
-    private ImageDetail result;
+    private ImageDetail data;
     private String message;
 
     public ResultDetail() {
@@ -19,12 +19,12 @@ public class ResultDetail {
         this.code = code;
     }
 
-    public ImageDetail getResult() {
-        return result;
+    public ImageDetail getData() {
+        return data;
     }
 
-    public void setResult(ImageDetail result) {
-        this.result = result;
+    public void setData(ImageDetail data) {
+        this.data = data;
     }
 
     public String getMessage() {
@@ -34,4 +34,5 @@ public class ResultDetail {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

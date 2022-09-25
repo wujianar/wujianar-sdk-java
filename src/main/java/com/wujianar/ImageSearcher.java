@@ -42,6 +42,7 @@ public class ImageSearcher extends Base {
                 .setHeader(this.getHeader())
                 .setFile(filename)
                 .call();
+                System.out.println(new String(data));
         return this.toResult(data, ResultSearch.class);
     }
 
