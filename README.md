@@ -1,6 +1,6 @@
 # 无间AR SDK Java版
 
-技术支持： https://www.wujianar.com
+技术支持： https://www.wujianar.cn
 
 ## API说明
 
