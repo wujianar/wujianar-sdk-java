@@ -12,14 +12,14 @@ import java.util.Base64;
 
 public class Application {
     public static void main(String[] args) throws IOException {
-        testSearch();
-        // testManager();
+        // testSearch();
+        testManager();
     }
 
     public static void testManager() throws IOException {
         String accessKey = "3d9d6......a3c6b50c88fd4b";
         String accessSecret = "2efDxOywyN......oZnjcG8Um8NDcmoycKw9TvhGLFEr";
-        String endpointUrl = "https://iss-cn2.wujianar.com";
+        String endpointUrl = "https://portal.wujianar.cn/api";
 
         ImageManager manager = new ImageManager(accessKey, accessSecret, endpointUrl);
         // ResultList list = manager.getList();
@@ -28,8 +28,7 @@ public class Application {
         // ResultDetail detail = manager.createByBase64("name", "{}", getImage());
         // ResultNormal normal = manager.updateStatus(new String[]{"7fa9d2c43c76423c8be9b86999795a18"}, 2);
         // ResultNormal normal = manager.update("7fa9d2c43c76423c8be9b86999795a18", "AAAAAAA", "{age:11}", 1);
-        // ResultNormal normal = manager.update("7fa9d2c43c76423c8be9b86999795a18", "AAAAAAA", "{age:11}", 1, getImage());
-        ResultNormal normal = manager.delete(new String[]{"7fa9d2c43c76423c8be9b86999795a18"});
+        // ResultNormal normal = manager.delete(new String[]{"a11680010bcb419088f6364f6bc5603d"});
 
         // System.out.println(normal);
         System.out.println("done");
@@ -38,7 +37,7 @@ public class Application {
     public static void testSearch() throws IOException {
         String accessKey = "887f1......948a792533d5fef646d";
         String accessSecret = "6eFRLOy......H1JJoNfTKCCml4yW3rRDuN4JeQS5kzK";
-        String endpointUrl = "https://iss-cn2.wujianar.com";
+        String endpointUrl = "https://iss-api.wujianar.cn";
 
         ImageSearcher searcher = new ImageSearcher(accessKey, accessSecret, endpointUrl);
         // ResultSearch rs = searcher.searchByBase64(getImage());
